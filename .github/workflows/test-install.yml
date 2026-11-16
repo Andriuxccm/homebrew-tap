@@ -1,0 +1,46 @@
+name: Test install
+
+# Installs the cask on clean GitHub Macs the way a customer does (brew updated, fully qualified name),
+# checks the app in /Applications, then uninstalls it.
+on:
+  push:
+    branches: [main]
+    paths: ["Casks/**", ".github/workflows/test-install.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - name: Install like a customer
+        run: |
+          sw_vers -productVersion
+          brew update --quiet || true
+          brew --version | head -1
+          brew tap andriuxccm/tap "$GITHUB_WORKSPACE"
+          brew install --cask andriuxccm/tap/argon
+
+      - name: Check the installed app
+        run: |
+          app=/Applications/Argon.app
+          want=$(sed -nE 's/^  version "([^"]+)"$/\1/p' Casks/argon.rb)
+          got=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist")
+          echo "cask $want, installed $got"
+          [ "$got" = "$want" ]
+          codesign --verify --deep -R='notarized and anchor apple generic and certificate leaf[subject.OU] = "CM7Z3M6V2Y"' "$app"
+          xattr -p com.apple.quarantine "$app"
+          spctl -a -t exec -vv "$app" || true
+
+      - name: Uninstall
+        run: |
+          brew uninstall --cask andriuxccm/tap/argon
+          [ ! -e /Applications/Argon.app ]

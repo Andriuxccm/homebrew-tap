@@ -15,9 +15,12 @@ cask "argon" do
   end
 
   auto_updates true
+  depends_on arch: :arm64
   depends_on macos: :sequoia
 
   app "Argon.app"
+
+  uninstall quit: "com.argonmac.argon"
 
   zap trash: [
     "~/Library/Application Support/Argon",
