@@ -1,6 +1,6 @@
 cask "argon" do
-  version "2.30"
-  sha256 "6baedaf4d45178b8ce46efdb347115ed4b32953ecafdf3d58db6ce3ccdcd8aa2"
+  version "2.31"
+  sha256 "0e835e0c9941a1a024fc42b11ee3194cf8375f2e8c42dc810f9ecb61a824d2e5"
 
   url "https://argonmac.com/releases/Argon-#{version}.dmg"
   name "Argon"
@@ -16,7 +16,7 @@ cask "argon" do
 
   auto_updates true
   depends_on arch: :arm64
-  depends_on macos: :sequoia
+  depends_on macos: :sonoma
 
   app "Argon.app"
 
