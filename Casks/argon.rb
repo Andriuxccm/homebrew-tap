@@ -1,6 +1,6 @@
 cask "argon" do
-  version "2.32"
-  sha256 "558c47ee38ebd2fb10632af9f056ed2fbd5e5eb919c60f7f2933a9fb9360725a"
+  version "2.33"
+  sha256 "91e808e40a94dd6ffd27617402a308a90981d251ff569bc6f80651c45a9615c5"
 
   url "https://argonmac.com/releases/Argon-#{version}.dmg"
   name "Argon"
