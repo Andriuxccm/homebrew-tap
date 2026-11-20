@@ -24,9 +24,12 @@ cask "argon" do
 
   zap trash: [
     "~/Library/Application Support/Argon",
+    "~/Library/Caches/Argon",
     "~/Library/Caches/com.argonmac.argon",
     "~/Library/HTTPStorages/com.argonmac.argon",
+    "~/Library/Logs/Argon",
     "~/Library/Preferences/com.argonmac.argon.plist",
+    "~/Library/Preferences/com.argonmac.argon.prefs.plist",
     "~/Library/Saved Application State/com.argonmac.argon.savedState",
   ]
 end
